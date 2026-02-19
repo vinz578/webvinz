@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VINZ STORE - OFFICIAL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); z-index: 50; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); }
+        .modal.active { display: flex; }
+        .gradient-text { background: linear-gradient(to right, #3b82f6, #93c5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="bg-slate-900 text-white flex items-center justify-center min-h-screen p-5 font-sans">
+
+    <div class="w-full max-w-md bg-slate-800 border border-slate-700 rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden border-b-4 border-b-blue-600">
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-600/20 rounded-full blur-3xl"></div>
+        
+        <h2 class="text-4xl font-black text-center mb-1 gradient-text italic tracking-tighter uppercase text-blue-500">VINZ STORE</h2>
+        <p class="text-slate-500 text-center text-[10px] mb-8 uppercase tracking-[0.3em] font-bold">Panel • ADP • Sewa GB</p>
+
+        <div class="relative z-10 space-y-6">
+            <div>
+                <label class="text-[10px] font-black text-blue-400 uppercase ml-2 tracking-widest">Username / ID Pembeli</label>
+                <input type="text" id="username" placeholder="Contoh: vinz Ganteng" 
+                    class="w-full bg-slate-900/80 border border-slate-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 text-white text-sm shadow-inner transition-all">
+            </div>
+
+            <div>
+                <label class="text-[10px] font-black text-blue-400 uppercase ml-2 tracking-widest">Pilih Produk</label>
+                <select id="paket" class="w-full bg-slate-900/80 border border-slate-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 text-white text-sm appearance-none cursor-pointer">
+                    <optgroup label="PANEL MURAH" class="bg-slate-800 text-blue-400">
+                        <option value="Panel 1GB - Rp 500">Panel 1GB — Rp 500</option>
+                        <option value="Panel 2GB - Rp 1.000">Panel 2GB — Rp 1.000</option>
+                        <option value="Panel 3GB - Rp 2.000">Panel 3GB — Rp 2.000</option>
+                        <option value="Panel Unlimited - Rp 5.000">Panel Unlimited — Rp 5.000</option>
+                    </optgroup>
+                    <optgroup label="ADMIN PANEL (ADP)" class="bg-slate-800 text-purple-400">
+                        <option value="ADP Permanen - Rp 4.000">ADP Permanen — Rp 4.000</option>
+                        <option value="ADP Non-Permanen - Rp 2.000">ADP Non-Permanen — Rp 2.000</option>
+                    </optgroup>
+                    <optgroup label="OPEN SEWA GB (JAGA GRUP)" class="bg-slate-800 text-green-400">
+                        <option value="Sewa GB 1 Minggu - Rp 5.000">Sewa GB 1 Minggu — Rp 5.000</option>
+                        <option value="Sewa GB 2 Minggu - Rp 10.000">Sewa GB 2 Minggu — Rp 10.000</option>
+                        <option value="Sewa GB Permanen - Rp 15.000">Sewa GB Permanen — Rp 15.000</option>
+                    </optgroup>
+                    <optgroup label="RESELLER" class="bg-slate-800 text-yellow-400">
+                        <option value="Open Reseller - Rp 1.000">Open Reseller — Rp 1.000</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="space-y-3">
+                <button onclick="prosesOrder()" id="btnKirim"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-5 rounded-2xl transition duration-300 shadow-lg shadow-blue-500/30 uppercase tracking-[0.2em] active:scale-95 text-xs">
+                    🛒 BELI SEKARANG
+                </button>
+
+                <a href="https://t.me/vinztestikoni" target="_blank"
+                    class="w-full bg-slate-700/50 hover:bg-slate-700 border border-slate-600 text-slate-300 font-bold py-3 rounded-2xl transition duration-300 flex items-center justify-center gap-2 text-[10px] uppercase tracking-widest text-center">
+                    Cek Testimoni
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="qrisModal" class="modal">
+        <div class="bg-white rounded-[2.5rem] p-8 w-full max-w-[340px] text-center shadow-2xl border-4 border-blue-500">
+            <h3 class="text-slate-900 font-black text-2xl mb-1 italic text-blue-600 uppercase">VINZ STORE</h3>
+            <div id="badgePaket" class="inline-block bg-blue-100 text-blue-600 text-[10px] font-black px-4 py-1 rounded-full mb-4 uppercase"></div>
+            
+            <div class="bg-slate-50 p-3 rounded-2xl border-2 border-slate-100 mb-4 shadow-inner">
+                <img src="https://files.catbox.moe/6pqk0a.jpeg" alt="QRIS" class="w-full h-auto rounded-xl">
+            </div>
+            
+            <div class="text-slate-500 mb-6 font-bold">
+                <p class="text-xs uppercase">Total: <span id="hargaPaket" class="text-blue-600 text-lg"></span></p>
+                <p class="text-[9px] mt-2 italic text-slate-400 leading-tight">Selesaikan pembayaran, lalu chat @vinz7800 dengan bukti transfer!</p>
+            </div>
+            
+            <button onclick="tutupModal()" class="w-full bg-slate-900 text-white font-black py-4 rounded-xl uppercase text-[10px] tracking-widest shadow-lg">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        async function prosesOrder() {
+            const btn = document.getElementById('btnKirim');
+            const usn = document.getElementById('username').value;
+            const paketFull = document.getElementById('paket').value;
+            const namaPaket = paketFull.split(' - ')[0];
+            const harga = paketFull.split(' - ')[1];
+
+            if (!usn) {
+                alert('Woi Bos, suruh isi usernamenya dulu!');
+                return;
+            }
+
+            btn.innerHTML = "MENGIRIM...";
+            btn.disabled = true;
+
+            document.getElementById('badgePaket').innerText = namaPaket;
+            document.getElementById('hargaPaket').innerText = harga;
+            document.getElementById('qrisModal').classList.add('active');
+
+            const token = '8122557922:AAFkkCqEO0ACaEQr5Ix8RpT5qZ-xEM_7cG8'; 
+            const chatId = '7210288147'; 
+
+            // Cek apakah paketnya Sewa GB, kalau iya tambahin catatan Jaga Grup
+            let noteGB = "";
+            if(namaPaket.includes("Sewa GB")) {
+                noteGB = "\n📝 *Note:* Khusus Jaga Grup!";
+            }
+
+            const pesan = `🚀 *VINZ STORE: ORDER BARU* 🚀\n\n👤 *User:* \`${usn}\` \n📦 *Produk:* ${namaPaket}\n💰 *Harga:* ${harga}${noteGB}\n\n✅ Segera cek dana masuk!`;
+            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(pesan)}&parse_mode=Markdown`;
+
+            try {
+                const response = await fetch(url);
+                const result = await response.json();
+                if (result.ok) {
+                    console.log("Notif Berhasil!");
+                }
+            } catch (err) {
+                const img = new Image();
+                img.src = url;
+            } finally {
+                btn.innerHTML = "🛒 BELI SEKARANG";
+                btn.disabled = false;
+            }
+        }
+
+        function tutupModal() {
+            document.getElementById('qrisModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
